@@ -1,0 +1,25 @@
+# Smithery.ai configuration for MCP Memory Server
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      debug:
+        type: boolean
+        description: "Enable debug mode"
+        default: false
+    additionalProperties: false
+  commandFunction: |
+    (config) => {
+      const env = {};
+      
+      if (config.debug) {
+        env.DEBUG = '*';
+      }
+      
+      return {
+        command: 'npx',
+        args: ['-y', '@modelcontextprotocol/server-memory'],
+        env
+      };
+    }
