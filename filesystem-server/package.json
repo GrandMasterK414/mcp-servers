@@ -1,0 +1,14 @@
+{
+  "name": "mcp-filesystem-server",
+  "version": "1.0.0",
+  "description": "FileSystem MCP server for Cursor IDE",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx -y @modelcontextprotocol/server-filesystem ./data"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server-filesystem": "^0.0.2"
+  },
+  "author": "",
+  "license": "MIT"
+}
