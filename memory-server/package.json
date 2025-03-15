@@ -1,0 +1,14 @@
+{
+  "name": "mcp-memory-server",
+  "version": "1.0.0",
+  "description": "Memory MCP server for Cursor IDE",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx -y @modelcontextprotocol/server-memory"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server-memory": "^0.0.1"
+  },
+  "author": "",
+  "license": "MIT"
+}
