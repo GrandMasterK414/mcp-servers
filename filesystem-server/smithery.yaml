@@ -1,0 +1,27 @@
+# Smithery.ai configuration for MCP FileSystem Server
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      directories:
+        type: array
+        description: "Array of directories to allow access to"
+        items:
+          type: string
+        default: ["/data"]
+    required: ["directories"]
+    additionalProperties: false
+  commandFunction: |
+    (config) => {
+      // Ensure directories are specified
+      if (!config.directories || !Array.isArray(config.directories) || config.directories.length === 0) {
+        throw new Error("At least one directory must be specified");
+      }
+      
+      return {
+        command: 'npx',
+        args: ['-y', '@modelcontextprotocol/server-filesystem', ...config.directories],
+        env: {}
+      };
+    }
