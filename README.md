@@ -1,6 +1,10 @@
 # Model Context Protocol (MCP) Servers
+ smithery/config-ywl5
+[![smithery badge](https://smithery.ai/badge/@GrandMasterK414/mcp-servers)](https://smithery.ai/server/@GrandMasterK414/mcp-servers)
 
+A collection of Model Context Protocol (MCP) servers configured for optimal integration with Cursor IDE.
 This repository contains a collection of Model Context Protocol (MCP) servers configured for integration with Cursor IDE.
+main
 
 ## What are MCP Servers?
 
@@ -14,7 +18,19 @@ This repository includes the following MCP servers:
 
 Provides access to the local file system, allowing AI assistants to read, write, and manage files and directories.
 
+smithery/config-ywl5
+### Installing via Smithery
+
+To install MCP Servers for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@GrandMasterK414/mcp-servers):
+
+```bash
+npx -y @smithery/cli install @GrandMasterK414/mcp-servers --client claude
+```
+
+### Local Development
+
 ### Memory Server
+main
 
 Enables persistent memory storage across coding sessions, allowing the AI to remember context and preferences.
 
@@ -71,4 +87,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
+smithery/config-ywl5
+MIT
 This project is licensed under the MIT License - see the LICENSE file for details.
+main
