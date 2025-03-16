@@ -2,14 +2,15 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Copy package.json and package-lock.json
-COPY package*.json ./
+# Create data directory
+RUN mkdir -p /data && chmod 777 /data
 
-# Install dependencies
-RUN npm install
+# Install the MCP filesystem server globally
+RUN npm install -g @modelcontextprotocol/server-filesystem
 
-# Copy source files
-COPY . .
+# Copy the entrypoint script
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
 
-# Command will be specified in smithery.yaml
-CMD ["echo", "Please use smithery.yaml to start the server"]
+# The entrypoint provides default behavior, can be overridden by smithery.yaml
+ENTRYPOINT ["/app/entrypoint.sh"]

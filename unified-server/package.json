@@ -1,0 +1,25 @@
+{
+  "name": "unified-mcp-server",
+  "version": "1.0.0",
+  "description": "Unified server for the Model Context Protocol with multiple tools",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "^0.1.0",
+    "@modelcontextprotocol/server-filesystem": "^0.0.2",
+    "@octokit/rest": "^18.12.0",
+    "axios": "^0.24.0",
+    "uuid": "^8.3.2",
+    "mysql2": "^2.3.3",
+    "pg": "^8.7.3",
+    "mongodb": "^4.4.1",
+    "eslint": "^8.13.0",
+    "prettier": "^2.6.2",
+    "jsdoc-to-markdown": "^7.1.1",
+    "marked": "^4.0.14"
+  },
+  "author": "",
+  "license": "MIT"
+}

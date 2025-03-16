@@ -9,7 +9,19 @@ startCommand:
         description: "Array of directories to allow access to"
         items:
           type: string
-        default: ["/data"]
+        default: [
+          "/data", 
+          "./projects",
+          "./documents",
+          "./code",
+          "./assets",
+          "./configs",
+          "./notebooks",
+          "./datasets",
+          "./models",
+          "./src",
+          "./examples"
+        ]
     required: ["directories"]
     additionalProperties: false
   commandFunction: |

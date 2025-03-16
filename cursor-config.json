@@ -1,0 +1,41 @@
+{
+  "mcpServers": {
+    "FileSystem Tool": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "C:\\Users\\%USERNAME%\\Documents"
+      ]
+    },
+    "Memory Tool": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ]
+    },
+    "Brave Search": {
+      "command": "cmd", 
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-brave-search"
+      ]
+    },
+    "Web Fetch": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "python",
+        "-m",
+        "mcp_server_fetch"
+      ]
+    }
+  }
+}
