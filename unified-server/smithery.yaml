@@ -1,92 +1,126 @@
-# Smithery.ai configuration for Unified MCP Server
-startCommand:
-  type: stdio
-  configSchema:
-    type: object
-    properties:
-      enabledTools:
-        type: array
-        description: "Array of tools to enable"
-        items:
-          type: string
-        default: ["filesystem", "websearch", "coderunner", "personal"]
-      port:
-        type: number
-        description: "Port to run the server on"
-        default: 3000
-      filesystem:
-        type: object
-        properties:
-          directories:
-            type: array
-            description: "Directories to expose via filesystem tool"
-            items:
-              type: string
-            default: ["/data", "./projects", "./documents"]
-      websearch:
-        type: object
-        properties:
-          apiKey:
-            type: string
-            description: "API key for web search service"
-          useProxy:
-            type: boolean
-            description: "Whether to use a proxy for web searches"
-            default: false
-      coderunner:
-        type: object
-        properties:
-          timeout:
-            type: number
-            description: "Timeout for code execution in milliseconds"
-            default: 5000
-          allowedLanguages:
-            type: array
-            description: "Languages allowed for code execution"
-            items:
-              type: string
-            default: ["javascript", "python", "bash"]
-      personal:
-        type: object
-        properties:
-          customCommands:
-            type: object
-            description: "Custom commands for personal assistant"
-            default: {}
-    additionalProperties: false
-  commandFunction: |
-    (config) => {
-      // Convert config to environment variables
-      const env = {
-        PORT: config.port || 3000,
-        ENABLED_TOOLS: (config.enabledTools || []).join(',')
-      };
-      
-      // Add filesystem config
-      if (config.filesystem && config.filesystem.directories) {
-        env.FS_DIRECTORIES = config.filesystem.directories.join(',');
-      }
-      
-      // Add websearch config
-      if (config.websearch) {
-        if (config.websearch.apiKey) env.SEARCH_API_KEY = config.websearch.apiKey;
-        if (config.websearch.useProxy !== undefined) env.USE_PROXY = config.websearch.useProxy.toString();
-      }
-      
-      // Add coderunner config
-      if (config.coderunner) {
-        if (config.coderunner.timeout) env.CODE_TIMEOUT = config.coderunner.timeout;
-        if (config.coderunner.allowedLanguages) env.ALLOWED_LANGUAGES = config.coderunner.allowedLanguages.join(',');
-      }
-      
-      // Add personal config
-      if (config.personal && config.personal.customCommands) {
-        env.CUSTOM_COMMANDS = JSON.stringify(config.personal.customCommands);
-      }
-      
-      return {
-        command: 'node',
-        args: ['server.js'],
-        env
-      };
-    }
+# MCP Unified Server Smithery Configuration
+
+name: unified-mcp-server
+description: Unified MCP server with multiple specialized tools for Cursor IDE
+version: 1.0.0
+type: model-context-protocol-server
+author: GrandMasterK414
+
+# Docker configuration
+docker:
+  image: unified-mcp-server
+  build:
+    context: ./
+    dockerfile: Dockerfile
+  ports:
+    - "3000:3000"
+  environment:
+    NODE_ENV: production
+    PORT: 3000
+    HOST: 0.0.0.0
+    ENABLED_TOOLS: filesystem,github
+    # Add your GitHub token here or at runtime
+    # GITHUB_TOKEN: your_github_token_here
+    # EXPLAINER_API_KEY: your_openai_key_here
+
+# Health check
+healthcheck:
+  endpoint: /health
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 10s
+
+# Logging configuration
+logging:
+  level: info
+  format: json
+
+# Security configuration
+security:
+  cors:
+    enabled: true
+    origins:
+      - http://localhost:3000
+      - https://cursor.sh
+  rate_limiting:
+    enabled: true
+    max_requests: 100
+    window_ms: 60000
+
+# Available tools
+tools:
+  - name: filesystem
+    enabled: true
+    description: Access and manage files directly from Cursor IDE
+    
+  - name: github
+    enabled: true
+    description: Work with GitHub repositories, PRs, issues, and code
+    requires_env:
+      - GITHUB_TOKEN
+    
+  - name: api-tester
+    enabled: false
+    description: Test and debug APIs right from your editor
+    
+  - name: database
+    enabled: false
+    description: Connect to databases and run queries
+    
+  - name: code-quality
+    enabled: false
+    description: Lint and format your code
+    
+  - name: documentation
+    enabled: false
+    description: Auto-generate documentation from your code
+    
+  - name: code-translation
+    enabled: false
+    description: Translate code between programming languages
+    
+  - name: dependency-manager
+    enabled: false
+    description: Analyze and update project dependencies
+    
+  - name: performance-profiler
+    enabled: false
+    description: Profile your code to identify bottlenecks
+    
+  - name: code-explainer
+    enabled: false
+    description: Leverage AI to understand and improve your code
+    requires_env:
+      - EXPLAINER_API_KEY
+
+# Documentation
+documentation:
+  overview: |
+    The Unified MCP Server provides multiple specialized tools to enhance Cursor IDE's coding capabilities.
+    
+    This server integrates several tools into a single MCP server, allowing you to enable only the tools you need.
+    
+    See the README.md for more details on each tool and how to configure them.
+    
+  usage: |
+    To use the server with Cursor IDE:
+    
+    1. Deploy using Smithery or Docker
+    2. Enable desired tools via environment variables
+    3. Configure each tool with appropriate settings
+    4. Connect your Cursor IDE to the server
+    
+  configuration: |
+    Configure the server through environment variables:
+    
+    # Core configuration
+    PORT=3000
+    ENABLED_TOOLS=filesystem,github,apitester,codeexplainer
+    
+    # Tool-specific configuration
+    GITHUB_TOKEN=your_github_token
+    EXPLAINER_API_KEY=your_openai_api_key
+    FS_DIRECTORIES=/data,/projects,/documents
+    
+    See the config.js file for all available configuration options.
