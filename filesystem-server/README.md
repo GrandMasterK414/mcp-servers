@@ -1,39 +1,68 @@
-# FileSystem MCP Server
+# MCP Filesystem Server
 
-This directory contains the configuration for the FileSystem MCP server.
+A simple filesystem server for the Model Context Protocol (MCP) used by Cursor IDE.
 
-## Description
+## Features
 
-The FileSystem server provides controlled file system access to AI tools. It's built using the `@modelcontextprotocol/server-filesystem` package.
+- Provides file system access via MCP protocol
+- Configurable directory access
+- Runs in Docker container
+- Easily deployable to Smithery
 
-## Configuration
+## Usage
 
-### Local Setup
+### Local Development
 
-1. Install dependencies:
-   ```
-   npm install
-   ```
+1. Clone the repository
+2. Navigate to the filesystem-server directory
+3. Run `npm install`
+4. Start the server with `npm start`
 
-2. Run the server:
-   ```
-   npx -y @modelcontextprotocol/server-filesystem "C:\path\to\allowed\directory"
-   ```
+### Docker
 
-### Cursor IDE Configuration
+Build and run the Docker container:
 
-In Cursor IDE, add a new MCP server with:
+```bash
+# Build the image
+docker build -t mcp-filesystem-server .
 
-- **Name**: FileSystem Tool
-- **Type**: Command (stdio)
-- **Command**: `npx -y @modelcontextprotocol/server-filesystem "C:\Users\YourUsername\Documents"`
+# Run the container with your local directories mounted
+docker run -v /path/to/local/dir:/data mcp-filesystem-server
+```
 
 ### Smithery Deployment
 
-Use the provided Dockerfile and smithery.yaml for deployment on Smithery.
+This server is configured for easy deployment on Smithery. The default configuration gives access to the following directories:
 
-## Security Notes
+- `/data` (default container directory)
+- `./projects`
+- `./documents`
+- `./code`
+- `./assets`
+- `./configs`
+- `./notebooks`
+- `./datasets`
+- `./models`
+- `./src`
+- `./examples`
 
-- Always specify which directories are allowed to be accessed
-- Consider read-only access for sensitive directories
-- Monitor file operations for unexpected behavior
+You can customize the directories in your Smithery configuration.
+
+## Configuration
+
+Modify the list of directories in `smithery.yaml` to change which directories are accessible by default.
+
+For Windows users, use proper Windows paths:
+
+```yaml
+default: [
+  "C:/Users/YourUsername/Documents",
+  "C:/Users/YourUsername/Projects",
+  "C:/Dev",
+  "C:/Data"
+]
+```
+
+## License
+
+MIT
