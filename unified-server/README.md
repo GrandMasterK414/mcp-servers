@@ -1,108 +1,140 @@
-# Unified MCP Server
+# Unified MCP Server with Enhanced Tools
 
-A modular Model Context Protocol (MCP) server that provides multiple tools for Cursor IDE.
+A powerful, all-in-one Model Context Protocol (MCP) server that provides multiple specialized tools to enhance Cursor IDE's coding capabilities.
 
 ## Features
 
-- **Modular Architecture**: Load multiple tools in a single server instance
-- **Configurable**: Enable/disable tools and customize their behavior
-- **Docker Support**: Easy deployment via Docker
-- **Smithery Integration**: Designed for seamless deployment on Smithery
+- **10+ Specialized Tools**: A comprehensive suite of tools for software development
+- **Modular Design**: Enable/disable specific tools as needed
+- **Docker Integration**: Easy deployment via Docker
+- **Smithery Ready**: Designed for seamless deployment on Smithery
 
 ## Included Tools
 
-The server includes the following tools out of the box:
-
 ### 1. Filesystem Tool
+Access and manage files directly from Cursor IDE.
 
-Access files and directories on the server.
+### 2. GitHub Integration Tool
+Work with GitHub repositories, PRs, issues, and code all from your IDE.
+- Repository browsing and management
+- Pull request creation and review
+- Issue tracking
+- File exploration
 
-- Configure which directories to expose
-- Browse, read, and write files
-- Inherited from the existing filesystem-server
+### 3. API Testing Tool
+Test and debug APIs right from your editor.
+- Send requests (GET, POST, PUT, DELETE)
+- Save request templates
+- View formatted responses
+- Test API workflows
 
-### 2. Web Search Tool
+### 4. Database Explorer Tool
+Connect to databases and run queries.
+- Support for MySQL, PostgreSQL, MongoDB
+- Query execution and result visualization
+- Connection management
+- Query history
 
-Search the web directly from Cursor.
+### 5. Code Quality Tool
+Lint and format your code.
+- Integrate with ESLint, Prettier
+- Fix code issues with a single click
+- Quality metrics and reporting
+- Customizable configurations
 
-- Configurable API key and search provider
-- Proxy support for enhanced privacy
-- Return structured search results
+### 6. Documentation Generator
+Auto-generate documentation from your code.
+- Support for JSDoc, PyDoc
+- Multiple output formats (Markdown, HTML)
+- Customizable templates
+- Documentation history
 
-### 3. Code Runner Tool
+### 7. Code Translation Tool
+Translate code between programming languages.
+- Support for multiple languages (JS, TS, Python, Java, C++, etc.)
+- Maintain comments and structure
+- Compare original and translated code
+- Translation history
 
-Execute code snippets in various languages.
+### 8. Dependency Manager
+Analyze and update project dependencies.
+- Identify outdated packages
+- Vulnerability scanning
+- Package updates
+- Dependency analysis
 
-- Support for JavaScript, Python, and Bash
-- Configurable execution timeouts
-- Sandboxed execution environment
+### 9. Performance Profiler
+Profile your code to identify bottlenecks.
+- JavaScript and Python profiling
+- Time measurement and statistics
+- Detailed performance reports
+- Optimization suggestions
 
-### 4. Personal Assistant Tool
-
-Custom personal productivity tools.
-
-- Save and retrieve notes
-- Run custom commands
-- Extend with your own functionality
+### 10. AI Code Explainer
+Leverage AI to understand and improve your code.
+- Line-by-line explanations
+- Different detail levels (brief, detailed, comprehensive)
+- Code quality analysis
+- Improvement suggestions
 
 ## Usage
 
-### Local Development
+### Installation
 
-1. Clone the repository
-2. Navigate to the unified-server directory
-3. Install dependencies:
-   ```bash
-   npm install
-   ```
-4. Start the server:
-   ```bash
-   npm start
-   ```
+```bash
+# Clone the repository
+git clone https://github.com/GrandMasterK414/mcp-servers.git
+cd mcp-servers/unified-server
+
+# Install dependencies
+npm install
+
+# Start the server
+npm start
+```
 
 ### Docker
 
-Build and run using Docker:
-
 ```bash
-# Build the image
+# Build the Docker image
 docker build -t unified-mcp-server .
 
 # Run with default configuration
 docker run -p 3000:3000 unified-mcp-server
 
-# Run with custom environment variables
+# Run with specific tools enabled
 docker run -p 3000:3000 \
-  -e ENABLED_TOOLS=filesystem,websearch \
-  -e FS_DIRECTORIES=/data,/home/user/documents \
-  -v /path/to/local/dir:/data \
+  -e ENABLED_TOOLS=filesystem,github,codeexplainer \
+  -e GITHUB_TOKEN=your_github_token \
+  -e EXPLAINER_API_KEY=your_openai_api_key \
   unified-mcp-server
 ```
 
-### Smithery Deployment
-
-The server is pre-configured for Smithery deployment. You can customize the enabled tools and their configuration in the Smithery web interface.
-
 ## Configuration
 
-The server can be configured through environment variables or the Smithery configuration:
+Configure the server through environment variables:
 
-- `PORT`: Port to run the server on (default: 3000)
-- `ENABLED_TOOLS`: Comma-separated list of tools to enable (default: all)
-- `FS_DIRECTORIES`: Comma-separated list of directories for the filesystem tool
-- `SEARCH_API_KEY`: API key for the web search tool
-- `USE_PROXY`: Whether to use a proxy for web searches (true/false)
-- `CODE_TIMEOUT`: Timeout for code execution in milliseconds
-- `ALLOWED_LANGUAGES`: Comma-separated list of languages allowed for code execution
-- `CUSTOM_COMMANDS`: JSON string of custom commands for the personal assistant
+```bash
+# Core configuration
+PORT=3000
+ENABLED_TOOLS=filesystem,github,apitester,codeexplainer
+
+# Tool-specific configuration
+GITHUB_TOKEN=your_github_token
+EXPLAINER_API_KEY=your_openai_api_key
+FS_DIRECTORIES=/data,/projects,/documents
+```
+
+See the `config.js` file for all available configuration options.
 
 ## Extending
 
-To add your own tools:
+Add your own tools by:
 
-1. Create a new directory under `tools/`
-2. Implement the tool with a `register` function
-3. Add the tool to the enabled tools list
+1. Creating a new directory under `tools/`
+2. Implementing a tool with a `register` function
+3. Adding configuration to `config.js` and `smithery.yaml`
+4. Adding the tool to the `enabledTools` list
 
 ## License
 
