@@ -1,0 +1,92 @@
+# Smithery.ai configuration for Unified MCP Server
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      enabledTools:
+        type: array
+        description: "Array of tools to enable"
+        items:
+          type: string
+        default: ["filesystem", "websearch", "coderunner", "personal"]
+      port:
+        type: number
+        description: "Port to run the server on"
+        default: 3000
+      filesystem:
+        type: object
+        properties:
+          directories:
+            type: array
+            description: "Directories to expose via filesystem tool"
+            items:
+              type: string
+            default: ["/data", "./projects", "./documents"]
+      websearch:
+        type: object
+        properties:
+          apiKey:
+            type: string
+            description: "API key for web search service"
+          useProxy:
+            type: boolean
+            description: "Whether to use a proxy for web searches"
+            default: false
+      coderunner:
+        type: object
+        properties:
+          timeout:
+            type: number
+            description: "Timeout for code execution in milliseconds"
+            default: 5000
+          allowedLanguages:
+            type: array
+            description: "Languages allowed for code execution"
+            items:
+              type: string
+            default: ["javascript", "python", "bash"]
+      personal:
+        type: object
+        properties:
+          customCommands:
+            type: object
+            description: "Custom commands for personal assistant"
+            default: {}
+    additionalProperties: false
+  commandFunction: |
+    (config) => {
+      // Convert config to environment variables
+      const env = {
+        PORT: config.port || 3000,
+        ENABLED_TOOLS: (config.enabledTools || []).join(',')
+      };
+      
+      // Add filesystem config
+      if (config.filesystem && config.filesystem.directories) {
+        env.FS_DIRECTORIES = config.filesystem.directories.join(',');
+      }
+      
+      // Add websearch config
+      if (config.websearch) {
+        if (config.websearch.apiKey) env.SEARCH_API_KEY = config.websearch.apiKey;
+        if (config.websearch.useProxy !== undefined) env.USE_PROXY = config.websearch.useProxy.toString();
+      }
+      
+      // Add coderunner config
+      if (config.coderunner) {
+        if (config.coderunner.timeout) env.CODE_TIMEOUT = config.coderunner.timeout;
+        if (config.coderunner.allowedLanguages) env.ALLOWED_LANGUAGES = config.coderunner.allowedLanguages.join(',');
+      }
+      
+      // Add personal config
+      if (config.personal && config.personal.customCommands) {
+        env.CUSTOM_COMMANDS = JSON.stringify(config.personal.customCommands);
+      }
+      
+      return {
+        command: 'node',
+        args: ['server.js'],
+        env
+      };
+    }
