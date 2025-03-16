@@ -1,0 +1,63 @@
+name: task-manager-server
+version: 1.0.0
+description: Task Manager MCP server for Cursor IDE integration
+
+deployment:
+  type: server
+  resources:
+    memory: 512Mi
+    cpu: 0.5
+  environment:
+    - name: NODE_ENV
+      value: "production"
+    - name: PORT
+      value: "3000"
+    - name: MONGODB_URI
+      valueFrom:
+        secretKeyRef:
+          name: task-manager-secrets
+          key: mongodb-uri
+
+scaling:
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 80
+
+networking:
+  port: 3000
+  protocol: http
+  path: /
+  health:
+    path: /health
+    initialDelaySeconds: 30
+    periodSeconds: 10
+
+persistence:
+  type: mongodb
+  requirements:
+    - schema: "task"
+    - schema: "context"
+    - schema: "progress"
+
+cursorconfiguration:
+  toolName: "taskmanager"
+  description: "Task management with contextual code awareness and progress tracking"
+  schema:
+    request_planning:
+      description: "Register a new user request and plan its tasks"
+      parameters:
+        - name: "originalRequest"
+          type: "string"
+          required: true
+        - name: "tasks"
+          type: "array"
+          required: true
+        - name: "splitDetails"
+          type: "string"
+          required: false
+    get_next_task:
+      description: "Get the next pending task for a request"
+      parameters:
+        - name: "requestId"
+          type: "string"
+          required: true

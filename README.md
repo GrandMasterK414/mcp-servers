@@ -1,59 +1,74 @@
-# MCP Servers
+# Model Context Protocol (MCP) Servers
 
-A collection of Model Context Protocol (MCP) servers configured for optimal integration with Cursor IDE.
+This repository contains a collection of Model Context Protocol (MCP) servers configured for integration with Cursor IDE.
 
 ## What are MCP Servers?
 
-Model Context Protocol (MCP) is an open standard developed by Anthropic that enables AI applications (like Cursor IDE) to extend their capabilities by connecting to external tools, data, and automation workflows. MCP lets a language model securely access resources through a client-server architecture.
+MCP (Model Context Protocol) servers allow AI coding assistants in Cursor IDE to interact with external tools and services. They extend the capabilities of the AI by providing access to additional context, data, and functionality.
 
-## Servers in this Repository
+## Available Servers
 
-This repository contains configurations for the following MCP servers:
+This repository includes the following MCP servers:
 
-1. **FileSystem Server** - Provides file system access capabilities
-2. **Memory Server** - Provides memory/storage for AI sessions
-3. **Brave Search Server** - Enables web search capabilities
-4. **Fetch Server** - Allows retrieving web content
+### FileSystem Server
 
-## How to Use
+Provides access to the local file system, allowing AI assistants to read, write, and manage files and directories.
 
-### Local Development
+### Memory Server
 
-Each server directory contains:
-- `Dockerfile` - For building a containerized version of the server
-- `smithery.yaml` - Configuration for Smithery deployment
-- `package.json` or `requirements.txt` - Dependencies
+Enables persistent memory storage across coding sessions, allowing the AI to remember context and preferences.
 
-To run a server locally, navigate to its directory and follow the instructions in its README.
+### Brave Search Server
 
-### Deployment on Smithery
+Integrates with Brave Search API to enable web search capabilities for the AI assistant.
 
-These servers are configured for easy deployment on [Smithery](https://smithery.ai), a registry for MCP servers. 
+### Fetch Server
 
-1. Fork this repository
-2. Configure your Smithery account
-3. Connect your repository to Smithery
-4. Deploy the servers
+Allows the AI assistant to fetch data from external APIs and websites.
 
-### Integration with Cursor IDE
+### Task Manager Server
+
+Provides task management with contextual code awareness and progress tracking, helping developers maintain focus and context across coding sessions.
+
+## Local Development
+
+To develop and run these servers locally:
+
+1. Clone this repository
+2. Navigate to the specific server directory
+3. Install dependencies: `npm install`
+4. Start the server: `npm start`
+
+Each server directory contains its own README with specific setup instructions.
+
+## Deployment on Smithery
+
+These servers can be easily deployed using Smithery. See [SMITHERY_SETUP.md](SMITHERY_SETUP.md) for detailed instructions.
+
+## Integration with Cursor IDE
 
 To use these servers with Cursor IDE:
 
 1. Open Cursor IDE
-2. Go to Settings → Features → MCP Servers
-3. Add each server with the appropriate configuration
+2. Go to Settings > Extensions > MCP
+3. Add the server configuration (examples provided in each server's README)
+4. Save and restart Cursor
 
-See each server's directory for specific configuration details.
+See [DIRECT_SETUP.md](DIRECT_SETUP.md) for quick setup instructions.
 
-## Server Status and Troubleshooting
+## Troubleshooting
 
-If servers don't show a green status dot in Cursor IDE:
+If you encounter issues:
 
-1. Check if the server is running correctly
-2. Verify environment variables are set properly
-3. Check for port conflicts
+1. Check the server logs
+2. Verify your server is running and accessible
+3. Ensure your Cursor configuration is correct
 4. Restart Cursor IDE
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-MIT
+This project is licensed under the MIT License - see the LICENSE file for details.
