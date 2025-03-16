@@ -2,22 +2,23 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Create necessary directories
-RUN mkdir -p /data /app/temp && chmod 777 /data /app/temp
-
-# Install system dependencies
-RUN apk add --no-cache python3 bash
-
-# Install Node.js dependencies
+# Copy package files
 COPY package*.json ./
+
+# Install dependencies
 RUN npm install
 
-# Copy source files
+# Copy source code
 COPY . .
 
-# Create entrypoint script
-RUN echo '#!/bin/sh\nexec node server.js "$@"' > /app/entrypoint.sh && \
-    chmod +x /app/entrypoint.sh
+# Expose default port
+EXPOSE 3000
 
-# Entrypoint provides default behavior
-ENTRYPOINT ["/app/entrypoint.sh"]
+# Set environment variables
+ENV NODE_ENV=production
+ENV PORT=3000
+ENV HOST=0.0.0.0
+ENV ENABLED_TOOLS=filesystem,github
+
+# Run the server
+CMD ["node", "index.js"]
