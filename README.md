@@ -1,5 +1,7 @@
 # MCP Servers
 
+[![smithery badge](https://smithery.ai/badge/@GrandMasterK414/mcp-servers)](https://smithery.ai/server/@GrandMasterK414/mcp-servers)
+
 A collection of Model Context Protocol (MCP) servers configured for optimal integration with Cursor IDE.
 
 ## What are MCP Servers?
@@ -16,6 +18,14 @@ This repository contains configurations for the following MCP servers:
 4. **Fetch Server** - Allows retrieving web content
 
 ## How to Use
+
+### Installing via Smithery
+
+To install MCP Servers for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@GrandMasterK414/mcp-servers):
+
+```bash
+npx -y @smithery/cli install @GrandMasterK414/mcp-servers --client claude
+```
 
 ### Local Development
 
